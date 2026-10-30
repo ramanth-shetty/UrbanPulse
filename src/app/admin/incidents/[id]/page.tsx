@@ -158,22 +158,22 @@ export default function IncidentDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4 max-w-4xl mx-auto py-6">
-        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-lg" />
-        <div className="h-32 bg-slate-200 animate-pulse rounded-2xl" />
-        <div className="h-64 bg-slate-200 animate-pulse rounded-2xl" />
+        <div className="h-8 w-48 bg-slate-200 animate-pulse rounded-md" />
+        <div className="h-32 bg-slate-200 animate-pulse rounded-md" />
+        <div className="h-64 bg-slate-200 animate-pulse rounded-md" />
       </div>
     );
   }
 
   if (error || !incident) {
     return (
-      <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-4 max-w-md mx-auto my-12">
-        <div className="text-3xl">⚠️</div>
+      <div className="bg-white rounded-md p-8 border border-slate-200 text-center space-y-4 max-w-md mx-auto my-12">
+        <div className="text-sm font-mono text-slate-400 uppercase tracking-widest">[Alert]</div>
         <div className="text-base font-bold text-slate-800">Incident Not Found</div>
         <p className="text-xs text-slate-500">{error || 'Could not locate the requested incident.'}</p>
         <Link
           href="/admin"
-          className="inline-block px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold"
+          className="inline-block px-4 py-2 bg-slate-900 text-white rounded-md text-xs font-semibold"
         >
           ← Return to Operations Map
         </Link>
@@ -198,41 +198,40 @@ export default function IncidentDetailPage() {
           <span className="text-slate-300">|</span>
           <Link
             href="/admin/review"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-amber-700 hover:text-amber-800"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-700 hover:text-slate-900"
           >
-            <span>🛡️ Review Queue</span>
+            <span>Review Queue</span>
           </Link>
         </div>
 
-        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-900 border border-amber-300">
-          🧪 Synthetic Data & Simulated Routing
+        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[10px] font-semibold bg-amber-50 text-amber-900 border border-amber-300 font-mono">
+          Synthetic Data & Simulated Routing
         </span>
       </div>
 
       {/* Mocked Notification Toast Banner */}
       {mockedNotification && (
-        <div className="bg-emerald-50 border border-emerald-300 p-4 rounded-2xl text-xs text-emerald-900 flex items-start justify-between gap-3 animate-fade-in shadow-xs">
+        <div className="bg-slate-900 border border-slate-800 p-4 rounded-md text-xs text-white flex items-start justify-between gap-3 animate-fade-in shadow-xs">
           <div className="flex items-start gap-2.5">
-            <span className="text-base leading-none">📱</span>
             <div>
-              <div className="font-bold uppercase tracking-wider text-[10px] text-emerald-700">
+              <div className="font-bold uppercase tracking-wider text-[10px] text-slate-400">
                 Mocked Notification Triggered
               </div>
-              <div className="font-mono text-emerald-950 mt-0.5">{mockedNotification}</div>
+              <div className="font-mono text-slate-200 mt-0.5">{mockedNotification}</div>
             </div>
           </div>
           <button
             type="button"
             onClick={() => setMockedNotification(null)}
-            className="text-emerald-700 hover:text-emerald-950 font-bold text-sm leading-none"
+            className="text-slate-400 hover:text-white font-bold text-sm leading-none"
           >
-            ✕
+            ×
           </button>
         </div>
       )}
 
       {/* 2. Hero Overview Card */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+      <div className="bg-white rounded-md p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
             <div className="flex items-center gap-2">
@@ -240,7 +239,7 @@ export default function IncidentDetailPage() {
                 {incident.id}
               </h1>
               {incident.synthetic && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-sm bg-amber-50 text-amber-800 border border-amber-200">
                   Synthetic
                 </span>
               )}
@@ -252,18 +251,18 @@ export default function IncidentDetailPage() {
 
           <div className="flex items-center gap-2">
             <span
-              className={`text-xs font-extrabold px-3 py-1 rounded-full border ${
+              className={`text-xs font-mono font-extrabold px-3 py-1 rounded-sm border ${
                 incident.priorityScore >= 80
-                  ? 'bg-red-100 text-red-800 border-red-300'
+                  ? 'bg-rose-50 text-rose-800 border-rose-300'
                   : incident.priorityScore >= 60
-                  ? 'bg-orange-100 text-orange-800 border-orange-300'
-                  : 'bg-yellow-100 text-yellow-800 border-yellow-300'
+                  ? 'bg-amber-50 text-amber-800 border-amber-300'
+                  : 'bg-slate-100 text-slate-800 border-slate-300'
               }`}
             >
               Priority: {incident.priorityScore}/100
             </span>
 
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-700 bg-slate-100 px-3 py-1 rounded-sm border border-slate-200">
               {incident.status.replace('_', ' ')}
             </span>
           </div>
@@ -271,42 +270,36 @@ export default function IncidentDetailPage() {
 
         {/* Closure Disputed / Unreliable Alert */}
         {(incident.closureUnreliable || incident.status === 'reopened') && (
-          <div className="bg-rose-50 border-2 border-rose-300 p-4 rounded-2xl flex items-start gap-3 text-rose-950 animate-in fade-in shadow-xs">
-            <span className="text-2xl leading-none">⚠️</span>
-            <div className="space-y-1">
-              <div className="font-black uppercase tracking-wider text-xs text-rose-800 flex items-center gap-2 flex-wrap">
-                <span>Citizen Disputed Resolution: Closure Unreliable</span>
-                <span className="bg-rose-200 text-rose-900 text-[10px] font-bold px-2 py-0.5 rounded">
-                  Priority Auto-Escalated
-                </span>
-              </div>
-              <p className="text-xs text-rose-950 font-medium leading-relaxed">
-                A reporting citizen verified this issue on-site and submitted feedback that it was <span className="font-bold underline">NOT fixed</span>. The previous municipal closure has been flagged unreliable in city records, and the incident has been reopened for emergency supervisor review.
-              </p>
+          <div className="bg-rose-50 border border-rose-300 p-4 rounded-md space-y-1.5 text-rose-950 shadow-xs">
+            <div className="font-bold uppercase tracking-wider text-xs text-rose-800 flex items-center justify-between flex-wrap gap-2">
+              <span>Citizen Disputed Resolution: Closure Unreliable</span>
+              <span className="bg-rose-200 text-rose-900 text-[10px] font-mono font-bold px-2 py-0.5 rounded-sm">
+                Priority Auto-Escalated
+              </span>
             </div>
+            <p className="text-xs text-rose-950 font-medium leading-relaxed">
+              A reporting citizen verified this issue on-site and submitted feedback that it was <span className="font-bold underline">NOT fixed</span>. The previous municipal closure has been flagged unreliable in city records, and the incident has been reopened for emergency supervisor review.
+            </p>
           </div>
         )}
 
         {incident.verificationStatus === 'verified' && (
-          <div className="bg-emerald-50 border border-emerald-300 p-4 rounded-2xl flex items-start gap-3 text-emerald-950">
-            <span className="text-2xl leading-none">✅</span>
-            <div className="space-y-0.5">
-              <div className="font-black uppercase tracking-wider text-xs text-emerald-800">
-                Citizen-Verified Resolution
-              </div>
-              <p className="text-xs text-emerald-900 font-medium leading-relaxed">
-                Reporting citizen conducted on-site verification and confirmed the municipal fix.
-              </p>
+          <div className="bg-slate-50 border border-slate-300 p-4 rounded-md space-y-0.5 text-slate-900">
+            <div className="font-bold uppercase tracking-wider text-xs text-slate-900">
+              Citizen-Verified Resolution
             </div>
+            <p className="text-xs text-slate-700 font-medium leading-relaxed">
+              Reporting citizen conducted on-site verification and confirmed the municipal fix.
+            </p>
           </div>
         )}
 
         {/* ── Admin Workflow Section: Statuses & Crew Assignment ── */}
-        <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-4">
+        <div className="bg-slate-50 p-4 rounded-md border border-slate-200 space-y-4">
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div>
-              <div className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                <span>⚡ Admin Dispatch & Status Workflow</span>
+              <div className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                Admin Dispatch & Status Workflow
               </div>
               <div className="text-[11px] text-slate-500">
                 Lifecycle: New → Under review → Assigned → In progress → Resolved
@@ -321,9 +314,9 @@ export default function IncidentDetailPage() {
                   type="button"
                   disabled={updating}
                   onClick={() => handleUpdateStatusAndCrew(opt.value)}
-                  className={`text-xs font-semibold px-2.5 py-1 rounded-lg border transition-all ${
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-sm border transition-all ${
                     incident.status === opt.value
-                      ? `${opt.color} ring-2 ring-slate-800 shadow-2xs font-bold`
+                      ? `${opt.color} ring-1 ring-slate-900 font-bold`
                       : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'
                   }`}
                 >
@@ -334,7 +327,7 @@ export default function IncidentDetailPage() {
           </div>
 
           {/* Department & Mocked Crew Assignment Controls */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200/80">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-slate-200">
             <div>
               <label className="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">
                 Assign Department
@@ -342,7 +335,7 @@ export default function IncidentDetailPage() {
               <select
                 value={selectedDept}
                 onChange={(e) => handleDeptChange(e.target.value as Department)}
-                className="w-full text-xs font-medium px-3 py-2 bg-white rounded-xl border border-slate-300 text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full text-xs font-medium px-3 py-2 bg-white rounded-md border border-slate-300 text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-slate-900"
               >
                 {DEPARTMENTS.map((dept) => (
                   <option key={dept.id} value={dept.id}>
@@ -357,14 +350,14 @@ export default function IncidentDetailPage() {
                 <label className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                   Mocked Municipal Field Crew
                 </label>
-                <span className="text-[9px] font-semibold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">
+                <span className="text-[9px] font-semibold text-amber-800 bg-amber-50 px-1.5 py-0.2 rounded-sm border border-amber-200">
                   Mocked
                 </span>
               </div>
               <select
                 value={selectedCrew}
                 onChange={(e) => setSelectedCrew(e.target.value)}
-                className="w-full text-xs font-medium px-3 py-2 bg-white rounded-xl border border-slate-300 text-slate-800 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+                className="w-full text-xs font-medium px-3 py-2 bg-white rounded-md border border-slate-300 text-slate-800 focus:outline-hidden focus:ring-1 focus:ring-slate-900"
               >
                 {currentCrews.map((crew) => (
                   <option key={crew} value={crew}>
@@ -382,13 +375,13 @@ export default function IncidentDetailPage() {
               placeholder="Optional admin note / dispatch instruction..."
               value={customNote}
               onChange={(e) => setCustomNote(e.target.value)}
-              className="grow text-xs px-3 py-2 bg-white rounded-xl border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              className="grow text-xs px-3 py-2 bg-white rounded-md border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-hidden focus:ring-1 focus:ring-slate-900"
             />
             <button
               type="button"
               disabled={updating}
               onClick={() => handleUpdateStatusAndCrew('assigned', selectedDept, selectedCrew)}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-semibold transition-colors disabled:opacity-50 shrink-0 shadow-xs"
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-md text-xs font-semibold transition-colors disabled:opacity-50 shrink-0 shadow-xs"
             >
               {updating ? 'Updating...' : 'Assign Crew & Mark Assigned'}
             </button>
@@ -396,15 +389,14 @@ export default function IncidentDetailPage() {
 
           {/* Currently Assigned Badge */}
           {incident.assignedCrew && (
-            <div className="flex items-center gap-2 text-xs bg-indigo-50 border border-indigo-200 text-indigo-900 p-2.5 rounded-xl">
-              <span className="text-base">👷</span>
-              <div className="grow">
+            <div className="flex items-center gap-2 text-xs bg-slate-100 border border-slate-300 text-slate-900 p-2.5 rounded-md">
+              <div className="grow font-mono">
                 <span className="font-bold">Active Crew Assignment:</span> {incident.assignedCrew}
-                <span className="text-[10px] ml-1.5 text-indigo-600 font-semibold uppercase">
+                <span className="text-[10px] ml-1.5 text-slate-600 font-semibold uppercase">
                   ({incident.assignedDepartment || incident.leadDepartment})
                 </span>
               </div>
-              <span className="text-[9px] font-bold uppercase tracking-wider text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-700 bg-slate-200 px-2 py-0.5 rounded-sm">
                 Mocked
               </span>
             </div>
@@ -416,43 +408,43 @@ export default function IncidentDetailPage() {
           <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
             Merged Incident Description
           </div>
-          <p className="text-sm font-medium text-slate-800 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/80 leading-relaxed">
+          <p className="text-sm font-medium text-slate-800 bg-slate-50 p-3.5 rounded-md border border-slate-200 leading-relaxed">
             {incident.mergedSummary}
           </p>
         </div>
 
         {/* Root Cause Deduction */}
         {incident.rootCauseGuess && (
-          <div className="bg-amber-50/80 p-4 rounded-2xl border border-amber-200 space-y-1">
-            <div className="flex items-center gap-1.5 text-[10px] uppercase font-bold text-amber-900 tracking-wider">
-              <span>🔍 AI Root Cause Deduction</span>
-              <span className="text-[9px] font-normal text-amber-700">(Simulated Civic Reasoning)</span>
+          <div className="bg-slate-50 p-4 rounded-md border border-slate-300 space-y-1">
+            <div className="flex items-center gap-1.5 text-[10px] uppercase font-bold text-slate-900 tracking-wider">
+              <span>Root Cause Deduction</span>
+              <span className="text-[9px] font-normal text-slate-500 font-mono">(Simulated Civic Reasoning)</span>
             </div>
-            <p className="text-xs text-amber-950 font-medium leading-relaxed">
+            <p className="text-xs text-slate-800 font-medium leading-relaxed">
               {incident.rootCauseGuess}
             </p>
           </div>
         )}
 
         {/* Department Routing Info */}
-        <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 space-y-2">
+        <div className="bg-slate-50 p-3.5 rounded-md border border-slate-200 space-y-2">
           <div className="flex justify-between items-center">
             <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               Department Routing
             </span>
-            <span className="text-[10px] font-semibold text-slate-400">
+            <span className="text-[10px] font-semibold text-slate-400 font-mono">
               Simulated Municipal Routing
             </span>
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-3 py-1 rounded-xl bg-slate-900 text-white font-bold text-xs uppercase tracking-wide">
+            <span className="px-3 py-1 rounded-md bg-slate-900 text-white font-bold text-xs uppercase tracking-wide">
               Lead: {incident.leadDepartment.replace('_', ' ')}
             </span>
             {incident.supportingDepartments?.map((dept) => (
               <span
                 key={dept}
-                className="px-3 py-1 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold text-xs uppercase tracking-wide"
+                className="px-3 py-1 rounded-md bg-white border border-slate-300 text-slate-700 font-semibold text-xs uppercase tracking-wide"
               >
                 Supporting: {dept.replace('_', ' ')}
               </span>
@@ -470,11 +462,11 @@ export default function IncidentDetailPage() {
               {incident.statusHistory.map((entry, idx) => (
                 <div
                   key={idx}
-                  className="flex items-start justify-between gap-3 text-xs bg-slate-50 p-2.5 rounded-xl border border-slate-200"
+                  className="flex items-start justify-between gap-3 text-xs bg-slate-50 p-2.5 rounded-md border border-slate-200"
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold uppercase tracking-wider text-[10px] px-2 py-0.5 rounded bg-slate-200 text-slate-800">
+                      <span className="font-bold uppercase tracking-wider text-[10px] px-2 py-0.5 rounded-sm bg-slate-200 text-slate-800">
                         {entry.status.replace('_', ' ')}
                       </span>
                       <span className="text-[10px] text-slate-500 font-mono">

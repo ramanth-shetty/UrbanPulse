@@ -11,8 +11,6 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
-    "@next/swc-wasm-nodejs": "^16.4.3",
-    "@next/swc-win32-x64-msvc": "^15.1.0",
     "firebase": "^11.2.0",
     "leaflet": "^1.9.4",
     "next": "15.1.0",

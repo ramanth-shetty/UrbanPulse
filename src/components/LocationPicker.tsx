@@ -150,27 +150,14 @@ export default function LocationPicker({
           type="button"
           onClick={handleGetCurrentLocation}
           disabled={geoLoading}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-md border border-emerald-200 transition-colors disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-800 bg-slate-100 hover:bg-slate-200 px-2.5 py-1 rounded-md border border-slate-300 transition-colors disabled:opacity-50"
         >
-          {geoLoading ? (
-            <>
-              <span className="w-3 h-3 border-2 border-emerald-600 border-t-transparent rounded-full animate-spin" />
-              Locating...
-            </>
-          ) : (
-            <>
-              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="10" />
-                <polygon points="12 8 8 16 16 12 12 8" />
-              </svg>
-              Use My Location
-            </>
-          )}
+          {geoLoading ? 'Locating...' : 'Use My Location'}
         </button>
       </div>
 
       {/* Map View */}
-      <div className="relative rounded-xl overflow-hidden border border-slate-300 shadow-inner bg-slate-100">
+      <div className="relative rounded-md overflow-hidden border border-slate-300 bg-slate-100">
         <div
           ref={mapContainerRef}
           className="w-full h-44 z-0"
@@ -181,17 +168,17 @@ export default function LocationPicker({
             Loading OpenStreetMap...
           </div>
         )}
-        <div className="absolute bottom-1.5 left-2 z-10 bg-white/90 backdrop-blur px-2 py-0.5 rounded text-[10px] font-mono text-slate-600 shadow-sm border border-slate-200">
-          📍 {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
+        <div className="absolute bottom-1.5 left-2 z-10 bg-white px-2 py-0.5 rounded text-[10px] font-mono text-slate-700 border border-slate-300">
+          {location.lat.toFixed(4)}, {location.lng.toFixed(4)}
         </div>
       </div>
 
       <div className="text-[11px] text-slate-500 flex justify-between items-center">
-        <span>Tap map or drag pin to adjust coordinates</span>
+        <span>Click map or drag pin to adjust location</span>
       </div>
 
       {geoError && (
-        <p className="text-xs text-amber-700 bg-amber-50 p-2 rounded-lg border border-amber-200">
+        <p className="text-xs text-slate-800 bg-slate-100 p-2 rounded-md border border-slate-300">
           {geoError}
         </p>
       )}
@@ -203,7 +190,7 @@ export default function LocationPicker({
           value={address}
           onChange={(e) => onAddressChange(e.target.value)}
           placeholder="Street name, landmark or area (e.g. Sayyaji Rao Rd, near Clock Tower)"
-          className="w-full text-xs px-3 py-2 rounded-lg border border-slate-300 bg-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+          className="w-full text-xs px-3 py-2 rounded-md border border-slate-300 bg-white placeholder-slate-400 focus:outline-hidden focus:border-slate-800"
         />
       </div>
     </div>

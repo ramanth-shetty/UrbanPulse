@@ -46,48 +46,40 @@ export default function IncidentDetailModal({
   const { priorityFactors } = incident;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-900/40">
       <div
-        className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 flex flex-col text-left"
+        className="bg-white rounded-md max-w-lg w-full max-h-[90vh] overflow-y-auto border border-slate-300 flex flex-col text-left"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white/95 backdrop-blur z-10">
+        <div className="p-4 border-b border-slate-200 flex items-center justify-between sticky top-0 bg-white z-10">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-base font-bold text-slate-900">
+            <span className="font-mono text-sm font-bold text-slate-900">
               {incident.id}
             </span>
-            <span
-              className={`text-xs font-extrabold px-2 py-0.5 rounded-full border ${
-                incident.priorityScore >= 80
-                  ? 'bg-red-100 text-red-800 border-red-300'
-                  : incident.priorityScore >= 60
-                  ? 'bg-orange-100 text-orange-800 border-orange-300'
-                  : 'bg-yellow-100 text-yellow-800 border-yellow-300'
-              }`}
-            >
-              Priority: {incident.priorityScore}/100
+            <span className="text-xs font-mono font-bold px-2 py-0.5 rounded border border-slate-300 bg-slate-100 text-slate-800">
+              P: {incident.priorityScore}/100
             </span>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors text-sm font-bold"
+            className="w-7 h-7 rounded border border-slate-200 hover:bg-slate-100 text-slate-600 flex items-center justify-center transition-colors text-xs font-bold"
           >
             ✕
           </button>
         </div>
 
         {/* Modal Body */}
-        <div className="p-4 sm:p-5 space-y-4 text-xs">
+        <div className="p-4 space-y-3.5 text-xs">
           {/* Status Bar */}
-          <div className="flex items-center justify-between bg-slate-50 p-3 rounded-2xl border border-slate-200">
+          <div className="flex items-center justify-between bg-slate-50 p-3 rounded-md border border-slate-200">
             <div className="space-y-0.5">
-              <div className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">
+              <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
                 Current Status
               </div>
-              <div className="font-bold text-slate-800 uppercase tracking-wide">
+              <div className="font-bold text-slate-900 uppercase font-mono tracking-wide">
                 {currentStatus.replace('_', ' ')}
               </div>
             </div>
@@ -99,7 +91,7 @@ export default function IncidentDetailModal({
                   type="button"
                   disabled={updating}
                   onClick={() => handleStatusChange('in_progress')}
-                  className="px-2.5 py-1 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium text-[11px] transition-colors disabled:opacity-50"
+                  className="px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-900 text-white font-medium text-xs transition-colors disabled:opacity-50"
                 >
                   Start Work
                 </button>
@@ -109,7 +101,7 @@ export default function IncidentDetailModal({
                   type="button"
                   disabled={updating}
                   onClick={() => handleStatusChange('resolved')}
-                  className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-[11px] transition-colors disabled:opacity-50"
+                  className="px-2.5 py-1 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium text-xs transition-colors disabled:opacity-50"
                 >
                   Mark Resolved
                 </button>
@@ -119,30 +111,24 @@ export default function IncidentDetailModal({
 
           {/* Closure Unreliable Alert */}
           {(incident.closureUnreliable || currentStatus === 'reopened') && (
-            <div className="bg-rose-50 border-2 border-rose-300 p-3.5 rounded-2xl flex items-start gap-2.5 text-rose-950 animate-in fade-in">
-              <span className="text-xl leading-none">⚠️</span>
-              <div className="space-y-0.5">
-                <div className="font-extrabold uppercase tracking-wide text-[10px] text-rose-800">
-                  Disputed by Citizen: Closure Unreliable
-                </div>
-                <p className="text-xs text-rose-950 font-medium leading-relaxed">
-                  Reporting citizen conducted on-site verification and confirmed this issue is NOT resolved. Incident reopened with elevated priority (+20 pts to {incident.priorityScore}/100).
-                </p>
+            <div className="bg-red-50 border border-red-300 p-3 rounded-md text-red-900 space-y-0.5">
+              <div className="font-bold uppercase tracking-wide text-[10px] text-red-800">
+                Disputed by Citizen: Closure Unreliable
               </div>
+              <p className="text-xs text-red-800 leading-normal">
+                On-site inspection confirmed this issue was incomplete. Reopened with elevated priority (+20 pts to {incident.priorityScore}/100).
+              </p>
             </div>
           )}
 
           {incident.verificationStatus === 'verified' && (
-            <div className="bg-emerald-50 border border-emerald-300 p-3 rounded-2xl flex items-start gap-2 text-emerald-950">
-              <span className="text-lg leading-none">✅</span>
-              <div>
-                <div className="font-extrabold uppercase tracking-wide text-[10px] text-emerald-800">
-                  Citizen-Verified Fix
-                </div>
-                <p className="text-xs text-emerald-900 font-medium">
-                  Citizen on-site inspection confirmed the issue is fully resolved.
-                </p>
+            <div className="bg-slate-50 border border-slate-300 p-3 rounded-md text-slate-900 space-y-0.5">
+              <div className="font-bold uppercase tracking-wide text-[10px] text-slate-800">
+                Citizen-Verified Fix
               </div>
+              <p className="text-xs text-slate-600">
+                Citizen on-site inspection confirmed the issue is fully resolved.
+              </p>
             </div>
           )}
 
@@ -151,42 +137,36 @@ export default function IncidentDetailModal({
             <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               Merged Incident Summary
             </div>
-            <p className="text-sm font-medium text-slate-800 bg-slate-50 p-3 rounded-xl border border-slate-200 leading-relaxed">
+            <p className="text-xs font-medium text-slate-800 bg-slate-50 p-3 rounded-md border border-slate-200 leading-relaxed">
               {incident.mergedSummary}
             </p>
           </div>
 
           {/* Root Cause Guess */}
           {incident.rootCauseGuess && (
-            <div className="bg-amber-50/80 p-3 rounded-xl border border-amber-200 space-y-1">
-              <div className="flex items-center gap-1.5 text-[10px] uppercase font-bold text-amber-900 tracking-wider">
-                <span>🔍 AI Root Cause Deduction</span>
-                <span className="text-[9px] font-normal text-amber-700">(Simulated)</span>
+            <div className="bg-slate-50 p-3 rounded-md border border-slate-200 space-y-0.5">
+              <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                Root Cause Assessment
               </div>
-              <p className="text-xs text-amber-950 font-medium leading-relaxed">
+              <p className="text-xs text-slate-800 font-medium leading-relaxed">
                 {incident.rootCauseGuess}
               </p>
             </div>
           )}
 
           {/* Department Routing */}
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                Department Assignment
-              </span>
-              <span className="text-[9px] font-semibold text-slate-400">
-                Simulated Municipal Routing
-              </span>
+          <div className="bg-slate-50 p-3 rounded-md border border-slate-200 space-y-1.5">
+            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+              Department Routing
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <span className="px-2.5 py-1 rounded-lg bg-slate-900 text-white font-bold text-xs uppercase tracking-wide">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="px-2 py-0.5 rounded bg-slate-900 text-white font-semibold text-xs uppercase tracking-wide">
                 Lead: {incident.leadDepartment.replace('_', ' ')}
               </span>
               {incident.supportingDepartments?.map((dept) => (
                 <span
                   key={dept}
-                  className="px-2.5 py-1 rounded-lg bg-white border border-slate-300 text-slate-700 font-semibold text-xs uppercase tracking-wide"
+                  className="px-2 py-0.5 rounded bg-white border border-slate-300 text-slate-700 font-medium text-xs uppercase tracking-wide"
                 >
                   Supporting: {dept.replace('_', ' ')}
                 </span>
@@ -196,29 +176,29 @@ export default function IncidentDetailModal({
 
           {/* Deterministic Priority Breakdown */}
           {priorityFactors && (
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-2.5">
+            <div className="bg-slate-50 p-3 rounded-md border border-slate-200 space-y-2">
               <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider flex justify-between items-center">
                 <span>Deterministic Priority Factors</span>
-                <span className="text-[9px] font-mono text-slate-500">Auditable Equation</span>
+                <span className="text-[9px] font-mono text-slate-500">Auditable Calculation</span>
               </div>
 
               <div className="space-y-1.5">
                 {[
-                  { name: 'Safety Hazard (Weight 30%)', val: priorityFactors.safetyRisk, color: 'bg-red-500' },
-                  { name: 'People Affected (Weight 20%)', val: priorityFactors.peopleAffected, color: 'bg-blue-500' },
-                  { name: 'Sensitive Proximity (Weight 15%)', val: priorityFactors.sensitiveLocation, color: 'bg-purple-500' },
-                  { name: 'Visual Evidence (Weight 15%)', val: priorityFactors.imageSeverity, color: 'bg-amber-500' },
-                  { name: 'Age Urgency (Weight 10%)', val: priorityFactors.age, color: 'bg-teal-500' },
-                  { name: 'Recurrence History (Weight 10%)', val: priorityFactors.recurrenceHistory, color: 'bg-rose-500' },
-                ].map(({ name, val, color }) => (
+                  { name: 'Safety Risk (30%)', val: priorityFactors.safetyRisk },
+                  { name: 'People Affected (20%)', val: priorityFactors.peopleAffected },
+                  { name: 'Facility Proximity (15%)', val: priorityFactors.sensitiveLocation },
+                  { name: 'Visual Evidence (15%)', val: priorityFactors.imageSeverity },
+                  { name: 'Age Duration (10%)', val: priorityFactors.age },
+                  { name: 'Recurrence History (10%)', val: priorityFactors.recurrenceHistory },
+                ].map(({ name, val }) => (
                   <div key={name} className="space-y-0.5">
-                    <div className="flex justify-between text-[10px] text-slate-600 font-medium">
+                    <div className="flex justify-between text-[10px] text-slate-600 font-medium font-mono">
                       <span>{name}</span>
                       <span>{(val * 100).toFixed(0)}%</span>
                     </div>
-                    <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
+                    <div className="w-full bg-slate-200 rounded h-1 overflow-hidden">
                       <div
-                        className={`h-full ${color} rounded-full transition-all`}
+                        className="h-full bg-slate-800 rounded transition-all"
                         style={{ width: `${Math.min(100, Math.max(0, val * 100))}%` }}
                       />
                     </div>
@@ -228,33 +208,16 @@ export default function IncidentDetailModal({
             </div>
           )}
 
-          {/* Match Reasons */}
-          {incident.matchReasons && incident.matchReasons.length > 0 && (
-            <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1.5">
-              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-                Cluster Correlation Reasons
-              </div>
-              <ul className="space-y-1 text-[11px] text-slate-600">
-                {incident.matchReasons.map((reason, idx) => (
-                  <li key={idx} className="flex items-start gap-1.5">
-                    <span className="text-emerald-600 font-bold">•</span>
-                    <span>{reason}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Corroborating Citizen Reports */}
-          <div className="space-y-1.5">
+          {/* Linked Citizen Reports */}
+          <div className="space-y-1">
             <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
               Linked Citizen Reports ({incident.memberReportIds.length})
             </div>
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-1">
               {incident.memberReportIds.map((id) => (
                 <span
                   key={id}
-                  className="font-mono text-[11px] font-semibold bg-white border border-slate-300 text-slate-700 px-2 py-1 rounded-lg"
+                  className="font-mono text-[10px] font-medium bg-white border border-slate-300 text-slate-700 px-1.5 py-0.5 rounded"
                 >
                   {id}
                 </span>
@@ -264,19 +227,18 @@ export default function IncidentDetailModal({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-3.5 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
+        <div className="p-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-2">
           <a
             href={`/admin/incidents/${incident.id}`}
-            className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 transition-colors flex items-center gap-1"
+            className="text-xs font-semibold text-slate-900 hover:underline"
           >
-            <span>Open Full View & Comparison</span>
-            <span>→</span>
+            Open Dossier & Full Ranking &rarr;
           </a>
 
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-xs transition-colors"
+            className="px-3 py-1.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition-colors"
           >
             Close
           </button>
@@ -285,4 +247,3 @@ export default function IncidentDetailModal({
     </div>
   );
 }
-

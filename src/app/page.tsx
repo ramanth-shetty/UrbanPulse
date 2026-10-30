@@ -14,39 +14,39 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-6 pt-2">
-      {/* Hero Card */}
-      <div className="bg-gradient-to-br from-emerald-600 via-emerald-700 to-teal-800 text-white rounded-3xl p-6 shadow-md text-center space-y-4">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur text-xs font-semibold text-emerald-100 border border-white/20">
-          <span>🏛️ Mysuru Civic Pulse</span>
+    <div className="space-y-4 pt-2 max-w-2xl mx-auto">
+      {/* Hero Overview */}
+      <div className="bg-slate-900 text-white rounded-md p-6 border border-slate-800 text-left space-y-4">
+        <div className="inline-block px-2.5 py-0.5 rounded text-[11px] font-mono uppercase tracking-wider text-slate-300 bg-slate-800 border border-slate-700">
+          City of Mysuru • Civic Incident Management
         </div>
 
-        <div className="space-y-1.5">
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Fixing Mysuru, One Pulse at a Time
+        <div className="space-y-1">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
+            Municipal Complaint & Infrastructure Operations
           </h1>
-          <p className="text-xs sm:text-sm text-emerald-100 max-w-sm mx-auto leading-relaxed">
-            Report road hazards, water leaks, garbage piles, or electrical issues in under a minute.
+          <p className="text-xs text-slate-400 max-w-lg leading-relaxed">
+            Report road damage, drainage overflow, garbage accumulation, or electrical hazards. Complaints are automatically clustered into root-cause incidents for municipal field resolution.
           </p>
         </div>
 
-        <div className="pt-2">
+        <div>
           <Link
             href="/report/new"
-            className="inline-flex items-center justify-center gap-2 w-full py-3.5 px-5 bg-white text-emerald-800 hover:bg-emerald-50 active:bg-emerald-100 rounded-2xl font-bold shadow-sm transition-transform active:scale-[0.98] text-sm"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white text-slate-900 hover:bg-slate-100 rounded-md font-semibold text-xs transition-colors"
           >
-            <span>📢 Report an Issue Now</span>
-            <span>→</span>
+            Submit Incident Report
+            <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </div>
 
       {/* Track Ticket Box */}
-      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-3">
-        <div className="space-y-1">
-          <h2 className="text-sm font-bold text-slate-800">Track an Existing Report</h2>
+      <div className="bg-white rounded-md p-5 border border-slate-200 text-left space-y-3">
+        <div className="space-y-0.5">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-700">Track Complaint Status</h2>
           <p className="text-xs text-slate-500">
-            Enter your tracking ID (e.g. <span className="font-mono text-slate-600 font-semibold">RPT-001</span>) to see live resolution status.
+            Enter tracking ID (e.g. <span className="font-mono text-slate-700 font-semibold">RPT-001</span>) to view resolution timeline and verify completion.
           </p>
         </div>
 
@@ -55,33 +55,31 @@ export default function HomePage() {
             type="text"
             value={trackId}
             onChange={(e) => setTrackId(e.target.value)}
-            placeholder="Enter Report ID"
-            className="flex-1 text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono uppercase"
+            placeholder="e.g. RPT-001"
+            className="flex-1 text-xs px-3 py-2 rounded-md border border-slate-300 placeholder-slate-400 focus:outline-hidden focus:border-slate-600 font-mono uppercase"
           />
           <button
             type="submit"
-            className="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-colors"
+            className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2 rounded-md transition-colors"
           >
             Track
           </button>
         </form>
       </div>
 
-      {/* Feature highlights */}
+      {/* Feature Architecture Cards */}
       <div className="grid grid-cols-2 gap-3 text-left">
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm space-y-1">
-          <div className="text-base">⚡</div>
-          <div className="text-xs font-bold text-slate-800">Fast 1-Min Capture</div>
-          <div className="text-[11px] text-slate-500 leading-tight">
-            Photo, GPS pin, & text in English, Kannada, or Hindi.
+        <div className="bg-white p-4 rounded-md border border-slate-200 space-y-1">
+          <div className="text-xs font-bold text-slate-800">Direct Multilingual Intake</div>
+          <div className="text-[11px] text-slate-500 leading-normal">
+            Processes citizen submissions in Kannada, Hindi, or English with location coordinates.
           </div>
         </div>
 
-        <div className="bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow-sm space-y-1">
-          <div className="text-base">🎯</div>
-          <div className="text-xs font-bold text-slate-800">Smart Deduplication</div>
-          <div className="text-[11px] text-slate-500 leading-tight">
-            Multiple reports merge into a single actionable incident.
+        <div className="bg-white p-4 rounded-md border border-slate-200 space-y-1">
+          <div className="text-xs font-bold text-slate-800">Spatiotemporal Clustering</div>
+          <div className="text-[11px] text-slate-500 leading-normal">
+            Merges duplicate complaints within 150m into a single actionable municipal work order.
           </div>
         </div>
       </div>
@@ -89,12 +87,11 @@ export default function HomePage() {
       <div className="text-center pt-2">
         <Link
           href="/admin"
-          className="text-xs font-medium text-slate-400 hover:text-slate-600 underline underline-offset-4"
+          className="text-xs font-medium text-slate-600 hover:text-slate-900 underline underline-offset-4"
         >
-          City Admin Dashboard & Map →
+          Municipal Operations Center &rarr;
         </Link>
       </div>
     </div>
   );
 }
-

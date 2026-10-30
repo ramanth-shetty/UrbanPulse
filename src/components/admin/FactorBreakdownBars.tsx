@@ -19,7 +19,6 @@ export default function FactorBreakdownBars({
       label: 'Life & Safety Risk',
       weight: weights.safetyRisk,
       value: factors.safetyRisk,
-      color: 'bg-red-500',
       description: 'Life hazard, electrocution risk, open pits, or physical peril',
     },
     {
@@ -27,7 +26,6 @@ export default function FactorBreakdownBars({
       label: 'Citizen Volume (Reports in Cluster)',
       weight: weights.peopleAffected,
       value: factors.peopleAffected,
-      color: 'bg-blue-500',
       description: 'Corroborating reports merged into this single incident',
     },
     {
@@ -35,7 +33,6 @@ export default function FactorBreakdownBars({
       label: 'Sensitive Facility Proximity',
       weight: weights.sensitiveLocation,
       value: factors.sensitiveLocation,
-      color: 'bg-purple-500',
       description: 'Proximity to schools, hospitals, or emergency corridors',
     },
     {
@@ -43,7 +40,6 @@ export default function FactorBreakdownBars({
       label: 'Visual Evidence Severity',
       weight: weights.imageSeverity,
       value: factors.imageSeverity,
-      color: 'bg-amber-500',
       description: 'Physical damage visible in attached citizen photographs',
     },
     {
@@ -51,7 +47,6 @@ export default function FactorBreakdownBars({
       label: 'Unresolved Aging Urgency',
       weight: weights.age,
       value: factors.age,
-      color: 'bg-teal-500',
       description: 'Days elapsed since the first report was logged',
     },
     {
@@ -59,28 +54,27 @@ export default function FactorBreakdownBars({
       label: 'Infrastructure Recurrence',
       weight: weights.recurrenceHistory,
       value: factors.recurrenceHistory,
-      color: 'bg-rose-500',
       description: 'Frequency of past repeated failures at this exact location',
     },
   ];
 
   return (
-    <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-3.5">
-      <div className="flex items-center justify-between">
+    <div className="bg-white rounded-md p-4 sm:p-5 border border-slate-200 space-y-3.5 text-left">
+      <div className="flex items-center justify-between border-b border-slate-200 pb-3">
         <div>
           <div className="text-xs font-bold text-slate-900 uppercase tracking-wider">
             Deterministic Priority Formula
           </div>
           <div className="text-[11px] text-slate-500">
-            Weighted linear sum — computed entirely by code, never invented by LLM
+            Weighted linear sum computed mathematically by code
           </div>
         </div>
 
         <div className="text-right">
-          <span className="text-xl sm:text-2xl font-black font-mono text-slate-900">
+          <span className="text-xl sm:text-2xl font-bold font-mono text-slate-900">
             {priorityScore}
           </span>
-          <span className="text-xs text-slate-400 font-semibold">/100</span>
+          <span className="text-xs text-slate-400 font-mono">/100</span>
         </div>
       </div>
 
@@ -93,27 +87,27 @@ export default function FactorBreakdownBars({
           return (
             <div key={row.key} className="space-y-1">
               <div className="flex items-center justify-between text-xs">
-                <div className="flex items-center gap-1.5 font-medium text-slate-700">
+                <div className="flex items-center gap-1.5 font-medium text-slate-800">
                   <span>{row.label}</span>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-100 px-1.5 py-0.2 rounded border border-slate-200">
+                  <span className="text-[10px] font-mono text-slate-500 bg-slate-100 px-1 py-0.2 rounded border border-slate-200">
                     {(row.weight * 100).toFixed(0)}% wt
                   </span>
                 </div>
-                <div className="font-mono text-xs font-bold text-slate-800">
+                <div className="font-mono text-xs font-bold text-slate-900">
                   +{contributionPoints} pts{' '}
                   <span className="text-[10px] text-slate-400 font-normal">({percentFill}%)</span>
                 </div>
               </div>
 
               {/* Progress track */}
-              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/60">
+              <div className="w-full h-1.5 bg-slate-100 rounded overflow-hidden border border-slate-200">
                 <div
-                  className={`h-full ${row.color} rounded-full transition-all duration-500`}
+                  className="h-full bg-slate-800 rounded transition-all duration-300"
                   style={{ width: `${percentFill}%` }}
                 />
               </div>
 
-              <div className="text-[10px] text-slate-400 leading-tight">
+              <div className="text-[10px] text-slate-500">
                 {row.description}
               </div>
             </div>
@@ -123,4 +117,3 @@ export default function FactorBreakdownBars({
     </div>
   );
 }
-

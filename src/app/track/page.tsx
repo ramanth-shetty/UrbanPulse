@@ -14,12 +14,12 @@ export default function TrackSearchPage() {
   };
 
   return (
-    <div className="space-y-6 max-w-md mx-auto pt-4 text-left">
-      <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-4">
+    <div className="space-y-4 max-w-md mx-auto pt-4 text-left">
+      <div className="bg-white rounded-md p-6 border border-slate-200 space-y-4">
         <div>
-          <h1 className="text-lg font-bold text-slate-900">Track Civic Complaint</h1>
+          <h1 className="text-base font-bold text-slate-900">Track Civic Complaint</h1>
           <p className="text-xs text-slate-500 mt-1">
-            Enter your tracking ID (e.g. <span className="font-mono font-semibold text-slate-700">RPT-001</span>) to view resolution timeline, linked incidents, and verify the fix.
+            Enter tracking ID (e.g. <span className="font-mono font-semibold text-slate-700">RPT-001</span>) to view resolution timeline, linked incidents, and verify the fix.
           </p>
         </div>
 
@@ -29,27 +29,26 @@ export default function TrackSearchPage() {
             value={trackId}
             onChange={(e) => setTrackId(e.target.value)}
             placeholder="e.g. RPT-001"
-            className="w-full text-sm px-4 py-3 rounded-2xl border border-slate-300 placeholder-slate-400 focus:outline-hidden focus:ring-2 focus:ring-emerald-500 font-mono uppercase"
+            className="w-full text-xs px-3 py-2.5 rounded-md border border-slate-300 placeholder-slate-400 focus:outline-hidden focus:border-slate-800 font-mono uppercase"
           />
 
           <button
             type="submit"
-            className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-3 px-4 rounded-2xl transition-colors shadow-xs"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2.5 px-4 rounded-md transition-colors"
           >
-            Track Status →
+            Track Status &rarr;
           </button>
         </form>
 
         <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-          <Link href="/report/new" className="text-emerald-700 hover:text-emerald-800 font-semibold">
+          <Link href="/report/new" className="text-slate-800 hover:text-black font-semibold">
             + Report New Issue
           </Link>
-          <Link href="/admin" className="text-slate-500 hover:text-slate-700">
-            Admin Map
+          <Link href="/admin" className="text-slate-500 hover:text-slate-800">
+            Admin Operations
           </Link>
         </div>
       </div>
     </div>
   );
 }
-

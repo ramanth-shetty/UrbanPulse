@@ -10,20 +10,20 @@ import type { GeoLocation, Report } from '@/types/report';
 const LocationPicker = dynamic(() => import('@/components/LocationPicker'), {
   ssr: false,
   loading: () => (
-    <div className="h-44 w-full bg-slate-100 rounded-xl flex items-center justify-center text-xs text-slate-400 border border-slate-200">
+    <div className="h-44 w-full bg-slate-100 rounded-md flex items-center justify-center text-xs text-slate-400 border border-slate-200">
       Loading OpenStreetMap...
     </div>
   ),
 });
 
 const CATEGORIES = [
-  { value: 'auto_detect', label: '✨ Auto-detect with AI (Recommended)' },
-  { value: 'water_drainage', label: '💧 Water / Drainage & Sewage' },
-  { value: 'road_damage', label: '🚧 Roads, Potholes & Footpaths' },
-  { value: 'garbage_dump', label: '🗑️ Garbage, Waste & Sanitation' },
-  { value: 'electrical_hazard', label: '⚡ Electricity, Poles & Streetlights' },
-  { value: 'park_maintenance', label: '🌳 Parks, Trees & Public Spaces' },
-  { value: 'traffic_issue', label: '🚦 Traffic, Signals & Road Signs' },
+  { value: 'auto_detect', label: 'Auto-detect Category (Recommended)' },
+  { value: 'water_drainage', label: 'Water / Drainage & Sewage' },
+  { value: 'road_damage', label: 'Roads, Potholes & Footpaths' },
+  { value: 'garbage_dump', label: 'Garbage, Waste & Sanitation' },
+  { value: 'electrical_hazard', label: 'Electricity, Poles & Streetlights' },
+  { value: 'park_maintenance', label: 'Parks, Trees & Public Spaces' },
+  { value: 'traffic_issue', label: 'Traffic, Signals & Road Signs' },
 ];
 
 export default function NewReportPage() {
@@ -99,42 +99,40 @@ export default function NewReportPage() {
     try {
       let imageUrl: string | null = null;
 
-      // 1. Photo upload to Firebase Storage if attached
+      // 1. Upload photo to Firebase Storage if selected
       if (photoFile) {
-        setUploadStatus('Uploading photo to storage...');
+        setUploadStatus('Uploading photo...');
         try {
-          const tempId = `temp_${Date.now()}`;
-          imageUrl = await uploadReportPhoto(photoFile, tempId);
-        } catch (storageErr) {
-          console.warn('Storage upload failed, proceeding with report metadata:', storageErr);
-          // If storage fails or is unconfigured in demo, proceed gracefully
+          imageUrl = await uploadReportPhoto(photoFile);
+        } catch (uploadErr) {
+          console.warn('Photo upload failed or storage offline, proceeding without photo URL:', uploadErr);
         }
       }
 
-      // 2. Submit to Server API Route
-      setUploadStatus('Logging complaint into civic queue...');
-      const res = await fetch('/api/reports', {
+      // 2. Submit report to server route
+      setUploadStatus('Registering civic report...');
+      const response = await fetch('/api/reports', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: text.trim(),
           category,
           location,
-          address: address.trim(),
+          address: address.trim() || undefined,
           imageUrl,
         }),
       });
 
-      const data = await res.json();
+      const data = await response.json();
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to submit report. Please try again.');
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || 'Failed to save complaint');
       }
 
       setSubmittedReport(data.report);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Submission error:', err);
-      setError(err instanceof Error ? err.message : 'Submission failed. Please check network.');
+      setError(err.message || 'Error submitting complaint. Please try again.');
     } finally {
       setSubmitting(false);
       setUploadStatus('');
@@ -144,8 +142,6 @@ export default function NewReportPage() {
   const handleReset = () => {
     setText('');
     setCategory('auto_detect');
-    setLocation({ lat: 12.3086, lng: 76.6531 });
-    setAddress('');
     setPhotoFile(null);
     setPhotoPreview(null);
     setSubmittedReport(null);
@@ -157,55 +153,55 @@ export default function NewReportPage() {
   }
 
   return (
-    <div className="space-y-4">
-      {/* Top Banner / Progress Indicator */}
-      <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white p-4 rounded-2xl shadow-sm">
-        <h1 className="text-lg font-bold">Report a Civic Issue</h1>
-        <p className="text-xs text-emerald-100 mt-0.5">
-          Takes under a minute. Submit in English, Kannada, or Hindi.
+    <div className="space-y-4 max-w-2xl mx-auto text-left">
+      {/* Top Banner */}
+      <div className="bg-slate-900 text-white p-4 rounded-md border border-slate-800">
+        <h1 className="text-base font-bold">Report a Civic Incident</h1>
+        <p className="text-xs text-slate-400 mt-0.5">
+          Submit in English, Kannada, or Hindi. Complaints are analyzed and routed to municipal field units.
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-4 sm:p-5 shadow-sm border border-slate-200 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white rounded-md p-4 sm:p-5 border border-slate-200 space-y-4">
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl flex items-start gap-2">
-            <span className="font-bold text-sm leading-none">⚠️</span>
-            <span>{error}</span>
+          <div className="p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-md">
+            {error}
           </div>
         )}
 
         {/* 1. Problem Description */}
-        <div className="space-y-1.5">
+        <div className="space-y-1">
           <div className="flex justify-between items-center">
-            <label htmlFor="complaint-text" className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
+            <label htmlFor="complaint-text" className="text-xs font-bold text-slate-700 uppercase tracking-wider">
               Issue Description <span className="text-red-500">*</span>
             </label>
-            <span className="text-[10px] text-slate-400 font-medium">English / ಕನ್ನಡ / हिंदी</span>
+            <span className="text-[10px] text-slate-400 font-mono">English / ಕನ್ನಡ / हिंदी</span>
           </div>
           <textarea
             id="complaint-text"
             rows={3}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="What is wrong? E.g. Blocked drain overflowing on road, large pothole near hospital gate, live sparking wire..."
-            className="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 resize-none transition-shadow"
+            placeholder="Describe the issue (e.g. Blocked drain overflowing onto road, deep pothole near hospital gate, sparking wire)..."
+            className="w-full text-xs sm:text-sm px-3 py-2 rounded-md border border-slate-300 placeholder-slate-400 focus:outline-hidden focus:border-slate-800 resize-none"
             maxLength={1000}
             required
           />
           <div className="flex justify-between text-[11px] text-slate-400">
-            <span>Be specific about hazards or blockages</span>
+            <span>Specify physical hazard or obstruction</span>
             <span>{text.length}/1000</span>
           </div>
         </div>
 
         {/* 2. Photo Attachment */}
-        <div className="space-y-1.5">
-          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
-            Photo (Optional, Recommended)
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+            Photo Attachment (Optional)
           </label>
 
           {photoPreview ? (
-            <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-900 group">
+            <div className="relative rounded-md overflow-hidden border border-slate-200 bg-slate-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={photoPreview}
                 alt="Complaint preview"
@@ -214,27 +210,14 @@ export default function NewReportPage() {
               <button
                 type="button"
                 onClick={handleRemovePhoto}
-                className="absolute top-2 right-2 bg-slate-900/80 hover:bg-red-600 text-white rounded-full p-1.5 text-xs backdrop-blur transition-colors"
-                title="Remove photo"
+                className="absolute top-2 right-2 bg-slate-900/90 text-white rounded px-2 py-1 text-xs transition-colors hover:bg-red-600"
               >
-                ✕ Remove
+                Remove
               </button>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-xl cursor-pointer bg-slate-50/60 hover:bg-emerald-50/30 transition-colors">
-              <div className="flex items-center gap-2 text-slate-500">
-                <svg className="w-5 h-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                  />
-                  <circle cx="12" cy="13" r="3" />
-                </svg>
-                <span className="text-xs font-medium text-slate-700">Take Photo or Choose File</span>
-              </div>
-              <span className="text-[10px] text-slate-400 mt-0.5">JPG, PNG up to 8MB</span>
+            <label className="flex flex-col items-center justify-center w-full h-20 border border-dashed border-slate-300 hover:border-slate-500 rounded-md cursor-pointer bg-slate-50/50 hover:bg-slate-50 transition-colors">
+              <span className="text-xs font-medium text-slate-700">Attach Photo (JPG, PNG up to 8MB)</span>
               <input
                 type="file"
                 accept="image/*"
@@ -247,8 +230,8 @@ export default function NewReportPage() {
         </div>
 
         {/* 3. Category Dropdown with Auto-detect */}
-        <div className="space-y-1.5">
-          <label htmlFor="category-select" className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+        <div className="space-y-1">
+          <label htmlFor="category-select" className="text-xs font-bold text-slate-700 uppercase tracking-wider block">
             Category
           </label>
           <div className="relative">
@@ -256,7 +239,7 @@ export default function NewReportPage() {
               id="category-select"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
-              className="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-slate-800 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 cursor-pointer pr-10 font-medium"
+              className="w-full text-xs sm:text-sm px-3 py-2 rounded-md border border-slate-300 bg-white text-slate-800 appearance-none focus:outline-hidden focus:border-slate-800 cursor-pointer pr-10 font-medium"
             >
               {CATEGORIES.map((c) => (
                 <option key={c.value} value={c.value}>
@@ -264,15 +247,10 @@ export default function NewReportPage() {
                 </option>
               ))}
             </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-400">
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
           </div>
           {category === 'auto_detect' && (
-            <p className="text-[11px] text-emerald-700">
-              ⚡ AI will classify category & route to the correct civic department upon submission.
+            <p className="text-[11px] text-slate-500">
+              Department routing and category are determined automatically from description content.
             </p>
           )}
         </div>
@@ -290,29 +268,18 @@ export default function NewReportPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition-all disabled:opacity-50 text-sm flex items-center justify-center gap-2"
+            className="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-4 rounded-md transition-colors disabled:opacity-50 text-xs sm:text-sm"
           >
-            {submitting ? (
-              <>
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>{uploadStatus || 'Submitting...'}</span>
-              </>
-            ) : (
-              <>
-                <span>Submit Complaint</span>
-                <span className="text-emerald-200">→</span>
-              </>
-            )}
+            {submitting ? uploadStatus || 'Submitting...' : 'Submit Incident Report'}
           </button>
         </div>
 
         <div className="text-center pt-1">
           <span className="text-[10px] text-slate-400">
-            Emergency life hazard? Also call 112 or Mysuru City Police helpline.
+            For critical life safety emergencies, contact 112 directly.
           </span>
         </div>
       </form>
     </div>
   );
 }
-

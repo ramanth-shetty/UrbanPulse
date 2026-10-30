@@ -8,7 +8,7 @@ import { storage } from './firebase';
  */
 export async function uploadReportPhoto(
   file: File,
-  reportId: string,
+  reportId: string = `rpt_${Date.now()}`,
 ): Promise<string> {
   const fileExt = file.name.split('.').pop() || 'jpg';
   const cleanName = `${reportId}_${Date.now()}.${fileExt}`;

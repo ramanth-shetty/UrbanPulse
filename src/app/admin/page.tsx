@@ -13,7 +13,7 @@ import type { IncidentStatus } from '@/types/status';
 const IncidentMap = dynamic(() => import('@/components/admin/IncidentMap'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[360px] sm:h-[460px] bg-slate-100 rounded-2xl flex items-center justify-center text-xs text-slate-400 border border-slate-200">
+    <div className="w-full h-[360px] sm:h-[460px] bg-slate-100 rounded-md flex items-center justify-center text-xs text-slate-400 border border-slate-200">
       Loading OpenStreetMap...
     </div>
   ),
@@ -91,12 +91,12 @@ export default function AdminDashboardPage() {
         />
 
         {/* View Mode Toggle (Mobile / Tablet) */}
-        <div className="flex items-center gap-1 bg-slate-200/80 p-1 rounded-xl self-start sm:self-auto text-xs font-semibold">
+        <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-md self-start sm:self-auto text-xs font-medium border border-slate-200">
           <button
             type="button"
             onClick={() => setViewMode('both')}
-            className={`px-2.5 py-1 rounded-lg transition-colors hidden md:block ${
-              viewMode === 'both' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-2.5 py-1 rounded transition-colors hidden md:block ${
+              viewMode === 'both' ? 'bg-white text-slate-900 shadow-xs font-semibold' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             Split View
@@ -104,26 +104,26 @@ export default function AdminDashboardPage() {
           <button
             type="button"
             onClick={() => setViewMode('map')}
-            className={`px-2.5 py-1 rounded-lg transition-colors ${
-              viewMode === 'map' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-2.5 py-1 rounded transition-colors ${
+              viewMode === 'map' ? 'bg-white text-slate-900 shadow-xs font-semibold' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            🗺️ Map View
+            Map View
           </button>
           <button
             type="button"
             onClick={() => setViewMode('list')}
-            className={`px-2.5 py-1 rounded-lg transition-colors ${
-              viewMode === 'list' ? 'bg-white text-slate-900 shadow-2xs' : 'text-slate-600 hover:text-slate-900'
+            className={`px-2.5 py-1 rounded transition-colors ${
+              viewMode === 'list' ? 'bg-white text-slate-900 shadow-xs font-semibold' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            📋 Incident List ({incidents.length})
+            Incident List ({incidents.length})
           </button>
         </div>
       </div>
 
       {error && (
-        <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
+        <div className="p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-md">
           {error}
         </div>
       )}
@@ -165,7 +165,7 @@ export default function AdminDashboardPage() {
           {loading ? (
             <div className="space-y-2">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="h-24 bg-slate-200/60 animate-pulse rounded-2xl" />
+                <div key={i} className="h-24 bg-slate-100 animate-pulse rounded-md" />
               ))}
             </div>
           ) : (

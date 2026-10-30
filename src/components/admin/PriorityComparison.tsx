@@ -85,15 +85,15 @@ export default function PriorityComparison({
   }
 
   return (
-    <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-4">
+    <div className="bg-white rounded-md p-4 sm:p-5 border border-slate-200 shadow-xs space-y-4">
       {/* Header & Comparison Selector */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-slate-100 pb-3">
         <div>
           <div className="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-            <span>⚖️ Priority Comparison Explainer</span>
+            <span>Priority Comparison Explainer</span>
           </div>
           <div className="text-[11px] text-slate-500">
-            "Why does Incident #1 rank above Incident #2?"
+            Why this incident ranks above or below selected incident
           </div>
         </div>
 
@@ -105,7 +105,7 @@ export default function PriorityComparison({
           <select
             value={targetId}
             onChange={(e) => setTargetId(e.target.value)}
-            className="text-xs font-semibold px-2.5 py-1.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+            className="text-xs font-semibold px-2.5 py-1.5 rounded-md border border-slate-300 bg-slate-50 text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900 font-mono"
           >
             {comparisonCandidates.map((cand) => (
               <option key={cand.id} value={cand.id}>
@@ -118,16 +118,16 @@ export default function PriorityComparison({
 
       {/* Outcome Verdict Card */}
       <div
-        className={`p-3 rounded-xl border text-xs leading-relaxed font-medium ${
+        className={`p-3 rounded-md border text-xs leading-relaxed font-medium ${
           isHigher
-            ? 'bg-emerald-50 text-emerald-950 border-emerald-200'
+            ? 'bg-slate-50 text-slate-900 border-slate-300'
             : isEqual
             ? 'bg-slate-50 text-slate-800 border-slate-200'
-            : 'bg-amber-50 text-amber-950 border-amber-200'
+            : 'bg-slate-50 text-slate-800 border-slate-200'
         }`}
       >
         <div className="flex items-center gap-1.5 font-bold uppercase text-[10px] tracking-wider mb-1">
-          <span>{isHigher ? '📈 Rank Advantage' : isEqual ? '⚖️ Equal Priority' : '📉 Lower Priority'}</span>
+          <span>{isHigher ? 'Higher Priority Rank' : isEqual ? 'Equal Priority' : 'Lower Priority Rank'}</span>
           <span>•</span>
           <span className="font-mono">
             {currentIncident.priorityScore} vs {targetIncident.priorityScore} pts (Δ {scoreDiff > 0 ? `+${scoreDiff}` : scoreDiff})

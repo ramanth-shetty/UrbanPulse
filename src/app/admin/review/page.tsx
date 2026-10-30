@@ -147,30 +147,29 @@ export default function ReviewQueuePage() {
           </Link>
           <span className="text-slate-300">|</span>
           <span className="text-xs font-bold text-slate-900">
-            🛡️ Human Review Queue ({reports.length})
+            Human Review Queue ({reports.length})
           </span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-blue-100 text-blue-900 border border-blue-200">
-            ⚖️ Policy: High Suspicion Never Auto-Rejects
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[10px] font-semibold bg-slate-100 text-slate-800 border border-slate-300 font-mono">
+            Policy: High Suspicion Never Auto-Rejects
           </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-900 border border-amber-300">
-            🧪 Synthetic Reports
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-sm text-[10px] font-semibold bg-amber-50 text-amber-900 border border-amber-300 font-mono">
+            Synthetic Reports
           </span>
         </div>
       </div>
 
       {/* Mocked Notification Banner */}
       {recentNotification && (
-        <div className="bg-emerald-50 border border-emerald-300 p-4 rounded-2xl text-xs text-emerald-900 flex items-start justify-between gap-3 animate-fade-in shadow-xs">
+        <div className="bg-slate-900 border border-slate-800 p-4 rounded-md text-xs text-white flex items-start justify-between gap-3 animate-fade-in shadow-xs">
           <div className="flex items-start gap-2.5">
-            <span className="text-base leading-none">📱</span>
             <div>
-              <div className="font-bold uppercase tracking-wider text-[10px] text-emerald-700">
+              <div className="font-bold uppercase tracking-wider text-[10px] text-slate-400">
                 Mocked Citizen Notification Dispatched
               </div>
-              <div className="font-mono text-emerald-950 mt-0.5 font-medium">
+              <div className="font-mono text-slate-200 mt-0.5 font-medium">
                 {recentNotification}
               </div>
             </div>
@@ -178,31 +177,31 @@ export default function ReviewQueuePage() {
           <button
             type="button"
             onClick={() => setRecentNotification(null)}
-            className="text-emerald-700 hover:text-emerald-950 font-bold text-sm leading-none"
+            className="text-slate-400 hover:text-white font-bold text-sm leading-none"
           >
-            ✕
+            ×
           </button>
         </div>
       )}
 
       {/* Review Queue Explanation Hero */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-2">
+      <div className="bg-white rounded-md p-5 sm:p-6 border border-slate-200 shadow-xs space-y-2">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold text-slate-900">
+          <h1 className="text-base font-bold text-slate-900">
             Suspicious & Low-Confidence Complaint Triage
           </h1>
           <button
             type="button"
             onClick={fetchQueue}
-            className="text-xs font-semibold px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors"
+            className="text-xs font-semibold px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md transition-colors"
           >
             Refresh
           </button>
         </div>
         <p className="text-xs text-slate-600 leading-relaxed">
           The AI engine analyzes citizen reports for authenticity and clarity. Reports with{' '}
-          <span className="font-bold text-amber-800">suspicion score &ge; 60</span> or{' '}
-          <span className="font-bold text-slate-800">confidence &lt; 0.50</span> are never discarded
+          <span className="font-bold text-slate-900">suspicion score &ge; 60</span> or{' '}
+          <span className="font-bold text-slate-900">confidence &lt; 0.50</span> are never discarded
           automatically; they are held here for human operators to evaluate, link to ongoing incidents, or
           dismiss with a logged justification.
         </p>
@@ -211,25 +210,25 @@ export default function ReviewQueuePage() {
       {/* Loading & Empty State */}
       {loading ? (
         <div className="space-y-3">
-          <div className="h-40 bg-slate-200 animate-pulse rounded-3xl" />
-          <div className="h-40 bg-slate-200 animate-pulse rounded-3xl" />
+          <div className="h-40 bg-slate-200 animate-pulse rounded-md" />
+          <div className="h-40 bg-slate-200 animate-pulse rounded-md" />
         </div>
       ) : error ? (
-        <div className="bg-white rounded-3xl p-8 border border-slate-200 text-center space-y-2">
-          <div className="text-2xl">⚠️</div>
+        <div className="bg-white rounded-md p-8 border border-slate-200 text-center space-y-2">
+          <div className="text-sm font-mono text-slate-400 uppercase tracking-widest">[Alert]</div>
           <div className="text-sm font-bold text-slate-800">Could Not Load Review Queue</div>
           <p className="text-xs text-slate-500">{error}</p>
         </div>
       ) : reports.length === 0 ? (
-        <div className="bg-white rounded-3xl p-10 border border-slate-200 text-center space-y-3">
-          <div className="text-3xl">🎉</div>
-          <div className="text-base font-bold text-slate-900">Review Queue is Clear!</div>
+        <div className="bg-white rounded-md p-10 border border-slate-200 text-center space-y-3">
+          <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest">Queue Status</div>
+          <div className="text-base font-bold text-slate-900">Review Queue is Clear</div>
           <p className="text-xs text-slate-500 max-w-md mx-auto">
             All flagged reports have been reviewed, merged, or dismissed. New suspicious submissions will appear here.
           </p>
           <Link
             href="/admin"
-            className="inline-block mt-2 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-semibold"
+            className="inline-block mt-2 px-4 py-2 bg-slate-900 text-white rounded-md text-xs font-semibold"
           >
             ← Return to Incident Dashboard
           </Link>
@@ -246,13 +245,13 @@ export default function ReviewQueuePage() {
             return (
               <div
                 key={report.id}
-                className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4"
+                className="bg-white rounded-md p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4"
               >
                 {/* Header row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-mono font-bold text-sm text-slate-900">{report.id}</span>
-                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                    <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-sm bg-slate-100 text-slate-700 border border-slate-200">
                       {report.category.replace('_', ' ')}
                     </span>
                     <span className="text-[10px] text-slate-400 font-mono">
@@ -268,12 +267,12 @@ export default function ReviewQueuePage() {
                   {/* Suspicion Score Badges */}
                   <div className="flex items-center gap-2">
                     {isSuspicious && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-red-100 text-red-800 border border-red-300">
+                      <span className="px-2.5 py-0.5 rounded-sm text-xs font-mono font-bold bg-rose-50 text-rose-800 border border-rose-300">
                         Suspicion: {report.fakeScore}/100
                       </span>
                     )}
                     {isLowConfidence && (
-                      <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                      <span className="px-2.5 py-0.5 rounded-sm text-xs font-mono font-bold bg-amber-50 text-amber-800 border border-amber-300">
                         Confidence: {Math.round((report.confidence ?? 0.4) * 100)}%
                       </span>
                     )}
@@ -282,12 +281,12 @@ export default function ReviewQueuePage() {
 
                 {/* Reason flags */}
                 {fakeReasons.length > 0 && (
-                  <div className="bg-red-50/70 p-3 rounded-2xl border border-red-200/80 space-y-1">
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-red-800 flex items-center gap-1">
-                      <span>🚩 Flagged Suspicion Signals</span>
-                      <span className="font-normal text-red-600">(Requires human judgment)</span>
+                  <div className="bg-rose-50 p-3 rounded-md border border-rose-200 space-y-1">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-rose-800 flex items-center justify-between">
+                      <span>Flagged Suspicion Signals</span>
+                      <span className="font-normal text-rose-600 font-mono">(Requires human judgment)</span>
                     </div>
-                    <ul className="list-disc list-inside text-xs text-red-950 font-medium space-y-0.5">
+                    <ul className="list-disc list-inside text-xs text-rose-950 font-medium space-y-0.5">
                       {fakeReasons.map((reason: string, rIdx: number) => (
                         <li key={rIdx}>{reason}</li>
                       ))}
@@ -300,7 +299,7 @@ export default function ReviewQueuePage() {
                   {/* Photo if available */}
                   <div className="sm:col-span-1">
                     {(report.imageUrl || (report as any).photoUrl) ? (
-                      <div className="relative rounded-2xl overflow-hidden border border-slate-200 aspect-square bg-slate-100 flex items-center justify-center">
+                      <div className="relative rounded-md overflow-hidden border border-slate-200 aspect-square bg-slate-100 flex items-center justify-center">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={report.imageUrl || (report as any).photoUrl}
@@ -309,9 +308,9 @@ export default function ReviewQueuePage() {
                         />
                       </div>
                     ) : (
-                      <div className="rounded-2xl border border-dashed border-slate-300 aspect-square bg-slate-50 flex flex-col items-center justify-center text-slate-400 p-2 text-center">
-                        <span className="text-xl">📷</span>
-                        <span className="text-[10px] mt-1">No photo attached</span>
+                      <div className="rounded-md border border-dashed border-slate-300 aspect-square bg-slate-50 flex flex-col items-center justify-center text-slate-400 p-2 text-center">
+                        <span className="text-xs font-mono font-semibold uppercase">No photo</span>
+                        <span className="text-[10px] mt-0.5">Attached</span>
                       </div>
                     )}
                   </div>
@@ -322,34 +321,31 @@ export default function ReviewQueuePage() {
                       <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                         Citizen Submission
                       </div>
-                      <p className="text-xs text-slate-800 font-medium bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 mt-1">
+                      <p className="text-xs text-slate-800 font-medium bg-slate-50 p-2.5 rounded-md border border-slate-200 mt-1">
                         &quot;{report.text}&quot;
                       </p>
                     </div>
 
                     {report.language !== 'en' && report.translatedText && (
                       <div>
-                        <div className="text-[10px] uppercase font-bold text-blue-700 tracking-wider flex items-center gap-1">
+                        <div className="text-[10px] uppercase font-bold text-slate-600 tracking-wider flex items-center gap-1">
                           <span>English Translation</span>
                           <span className="text-slate-400">({report.language.toUpperCase()})</span>
                         </div>
-                        <p className="text-xs text-slate-700 font-medium bg-blue-50/60 p-2.5 rounded-xl border border-blue-200/60 mt-1">
+                        <p className="text-xs text-slate-700 font-medium bg-slate-50 p-2.5 rounded-md border border-slate-200 mt-1">
                           {report.translatedText}
                         </p>
                       </div>
                     )}
 
-                    <div className="text-[11px] text-slate-500 flex items-center gap-2">
-                      <span>📍</span>
-                      <span className="truncate">
-                        {(report as any).address || `${report.location.lat.toFixed(4)}, ${report.location.lng.toFixed(4)}`}
-                      </span>
+                    <div className="text-[11px] text-slate-500 font-mono">
+                      {(report as any).address || `${report.location.lat.toFixed(4)}, ${report.location.lng.toFixed(4)}`}
                     </div>
                   </div>
                 </div>
 
                 {/* ── Action Controls Bar ── */}
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3 pt-3">
+                <div className="bg-slate-50 p-4 rounded-md border border-slate-200 space-y-3 pt-3">
                   <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
                     Operator Triage Actions
                   </div>
@@ -360,10 +356,9 @@ export default function ReviewQueuePage() {
                       type="button"
                       disabled={isProcessing}
                       onClick={() => handleAction(report.id, 'approve')}
-                      className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-xs"
+                      className="px-3 py-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-xs"
                     >
-                      <span>✓</span>
-                      <span>Approve as Genuine</span>
+                      Approve as Genuine
                     </button>
 
                     {/* 2. Merge into Existing Incident */}
@@ -374,7 +369,7 @@ export default function ReviewQueuePage() {
                         onChange={(e) =>
                           setMergeTargetMap((prev) => ({ ...prev, [report.id]: e.target.value }))
                         }
-                        className="grow text-xs px-2.5 py-2 bg-white rounded-xl border border-slate-300 text-slate-800 focus:outline-hidden"
+                        className="grow text-xs px-2.5 py-2 bg-white rounded-md border border-slate-300 text-slate-800 focus:outline-hidden"
                       >
                         {incidents.map((inc) => (
                           <option key={inc.id} value={inc.id}>
@@ -392,7 +387,7 @@ export default function ReviewQueuePage() {
                             mergeTargetMap[report.id] || (incidents[0] && incidents[0].id)
                           )
                         }
-                        className="px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs rounded-xl transition-colors disabled:opacity-50 shrink-0 shadow-xs"
+                        className="px-3 py-2 bg-slate-700 hover:bg-slate-800 text-white font-semibold text-xs rounded-md transition-colors disabled:opacity-50 shrink-0 shadow-xs"
                       >
                         Merge
                       </button>
@@ -409,16 +404,15 @@ export default function ReviewQueuePage() {
                           [report.id]: prev[report.id] || REJECT_PRESET_REASONS[0],
                         }));
                       }}
-                      className="px-3 py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-xl transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-xs"
+                      className="px-3 py-2 bg-rose-700 hover:bg-rose-800 text-white font-semibold text-xs rounded-md transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5 shadow-xs"
                     >
-                      <span>✕</span>
-                      <span>Dismiss with Reason</span>
+                      Dismiss with Reason
                     </button>
                   </div>
 
                   {/* Inline Rejection Sub-panel when active */}
                   {activeRejectModalReportId === report.id && (
-                    <div className="bg-white p-3.5 rounded-xl border border-rose-200 space-y-2.5 mt-2 animate-fade-in">
+                    <div className="bg-white p-3.5 rounded-md border border-rose-200 space-y-2.5 mt-2 animate-fade-in">
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold text-rose-900">
                           Select Justification for Dismissal (Logged & Notified)
@@ -437,7 +431,7 @@ export default function ReviewQueuePage() {
                         onChange={(e) =>
                           setRejectReasonMap((prev) => ({ ...prev, [report.id]: e.target.value }))
                         }
-                        className="w-full text-xs px-3 py-2 bg-slate-50 rounded-lg border border-slate-300 text-slate-800 focus:outline-hidden"
+                        className="w-full text-xs px-3 py-2 bg-slate-50 rounded-md border border-slate-300 text-slate-800 focus:outline-hidden"
                       >
                         {REJECT_PRESET_REASONS.map((reason) => (
                           <option key={reason} value={reason}>
@@ -453,7 +447,7 @@ export default function ReviewQueuePage() {
                           placeholder="Enter specific municipal reason..."
                           value={customRejectReason}
                           onChange={(e) => setCustomRejectReason(e.target.value)}
-                          className="w-full text-xs px-3 py-2 bg-white rounded-lg border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-hidden"
+                          className="w-full text-xs px-3 py-2 bg-white rounded-md border border-slate-300 text-slate-800 placeholder-slate-400 focus:outline-hidden"
                         />
                       )}
 
@@ -461,7 +455,7 @@ export default function ReviewQueuePage() {
                         <button
                           type="button"
                           onClick={() => setActiveRejectModalReportId(null)}
-                          className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                          className="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:bg-slate-100"
                         >
                           Cancel
                         </button>
@@ -475,7 +469,7 @@ export default function ReviewQueuePage() {
                                 : rejectReasonMap[report.id] || REJECT_PRESET_REASONS[0];
                             handleAction(report.id, 'reject', undefined, reason);
                           }}
-                          className="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-rose-700 hover:bg-rose-800 text-white shadow-2xs transition-colors"
+                          className="px-3.5 py-1.5 rounded-md text-xs font-bold bg-rose-700 hover:bg-rose-800 text-white shadow-2xs transition-colors"
                         >
                           Confirm Dismissal
                         </button>
@@ -491,7 +485,7 @@ export default function ReviewQueuePage() {
 
       {/* Session Audit Log */}
       {actionHistory.length > 0 && (
-        <div className="bg-slate-50 rounded-3xl p-5 border border-slate-200 space-y-2">
+        <div className="bg-slate-50 rounded-md p-5 border border-slate-200 space-y-2">
           <div className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">
             Review Session Log ({actionHistory.length} actions)
           </div>
@@ -499,16 +493,16 @@ export default function ReviewQueuePage() {
             {actionHistory.map((item, idx) => (
               <div
                 key={idx}
-                className="flex items-center justify-between text-xs bg-white p-2.5 rounded-xl border border-slate-200"
+                className="flex items-center justify-between text-xs bg-white p-2.5 rounded-md border border-slate-200"
               >
                 <div className="flex items-center gap-2">
                   <span className="font-mono font-bold text-slate-900">{item.reportId}</span>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-sm ${
                       item.action === 'APPROVE'
-                        ? 'bg-emerald-100 text-emerald-800'
+                        ? 'bg-slate-100 text-slate-900'
                         : item.action === 'MERGE'
-                        ? 'bg-indigo-100 text-indigo-800'
+                        ? 'bg-slate-200 text-slate-800'
                         : 'bg-rose-100 text-rose-800'
                     }`}
                   >
